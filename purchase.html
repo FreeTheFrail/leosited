@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase - Real Water™</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.paypal.com/sdk/js?client-id=Aa5IfT0YSUTcI-khW4GO6KMG-N-QHJaKEbs_iFeSnbi6JcDVdaDqLsvaR6Hzh5J8idBwVkCpVlLkVzWu"></script>
+</head>
+<body>
+    <header>
+        <h1>Purchase</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="purchase.html" class="active">Purchase</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Order Your Real Water™ Today</h2>
+        <p>Secure your Real Water now. Limited stock available!</p>
+    
+        <!-- Flexbox for Image Gallery and Form -->
+        <div class="purchase-container">
+            <!-- Product Image Gallery -->
+            <div class="image-gallery">
+                <!-- Large Preview Image -->
+                <img id="mainImage" src="IMG/realwater1.PNG" alt="Main Product Image" class="large-image">
+    
+                <!-- Thumbnail Selection -->
+                <div class="thumbnail-container">
+                    <img src="IMG/realwater1.PNG" alt="Water Bottle 1" class="thumbnail" onclick="changeImage(this)">
+                    <img src="IMG/realwater2.PNG" alt="Water Bottle 2" class="thumbnail" onclick="changeImage(this)">
+                    <img src="IMG/realwater3.PNG" alt="Water Bottle 3" class="thumbnail" onclick="changeImage(this)">
+                </div>
+            </div>
+    
+            <!-- Purchase Form and PayPal -->
+            <div class="purchase-form">
+                <form>
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1">
+    
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </form>
+    
+                <!-- PayPal Button -->
+                <div id="paypal-button-container"></div>
+            </div>
+        </div>
+    
+        <script>
+            function changeImage(smallImg) {
+                document.getElementById("mainImage").src = smallImg.src;
+            }
+    
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: { value: '19.99' }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Transaction completed by ' + details.payer.name.given_name);
+                    });
+                }
+            }).render('#paypal-button-container');
+        </script>
+    </main>
+    
+    
+
+    <footer>
+        <p>&copy; 2025 Real Water™. All rights reserved.</p>
+    </footer>
+</body>
+</html>
